@@ -1,0 +1,61 @@
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from "typeorm";
+
+import { Lesson } from "../lesson.entity";
+import { TextContent } from "../../../text-content/text-content.entity";
+import { Test } from "../../../test/test.entity";
+
+import { LessonType } from "../../../../common/enums/lesson-type.enum";
+import { Media } from "../../../../modules/media/media.entity";
+
+@Index("lesson_material_pk", ["id"], { unique: true })
+@Entity("lesson_material", { schema: "public" })
+export class LessonMaterial {
+
+    @PrimaryGeneratedColumn()
+    id: string;
+
+    @Column({ type: 'enum', enum: LessonType })
+    type: LessonType;
+
+    @ManyToOne(
+        () => Lesson,
+        lesson => lesson.lessonMaterials,
+        {
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        }
+    )
+    lesson: Lesson;
+
+    @OneToOne(
+        () => Media,
+        media => media.lessonMaterial,
+        { onDelete: "SET NULL" }
+    )
+    @JoinColumn()
+    media: Media;
+
+    @OneToOne(
+        () => Test,
+        test => test.lessonMaterial,
+        { onDelete: "SET NULL" }
+    )
+    @JoinColumn()
+    test: Test;
+
+    @OneToOne(
+        () => TextContent,
+        textContent => textContent.lessonMaterial,
+        { onDelete: "SET NULL" }
+    )
+    @JoinColumn()
+    textContent: TextContent;
+}
