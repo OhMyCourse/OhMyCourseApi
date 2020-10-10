@@ -1,6 +1,6 @@
 const { SnakeNamingStrategy } = require('typeorm-naming-strategies');
 
-require('dotenv').config({ path: './local.env' });
+require('dotenv').config({ path: './dev.env' });
 
 module.exports = {
     type: 'postgres',
@@ -15,5 +15,5 @@ module.exports = {
         migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
     },
     namingStrategy: new SnakeNamingStrategy(),
-    logging: process.env.TYPEORM_LOGGING,
+    logging: process.env.TYPEORM_LOGGING
 };
