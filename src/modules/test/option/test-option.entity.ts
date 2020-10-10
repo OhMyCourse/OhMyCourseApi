@@ -9,7 +9,7 @@ import {
 import { Test } from "../test.entity";
 
 @Index("test_option_pk", ["id"], { unique: true })
-@Entity("test_option", { schema: "public" })
+@Entity({ name: 'test_option' })
 export class TestOption {
 
     @PrimaryGeneratedColumn()

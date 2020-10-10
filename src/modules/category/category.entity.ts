@@ -7,11 +7,11 @@ import {
 
 @Index("course_category_pk", ["id"], { unique: true })
 @Index("course_category_name_uindex", ["name"], { unique: true })
-@Entity("category", { schema: "public" })
+@Entity({ name: 'category' })
 export class Category {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     name: string;

@@ -14,11 +14,11 @@ import { UserCourse } from "../user-course/user-course.entity";
 
 @Index("users_email_uindex", ["email"], { unique: true })
 @Index("users_pk", ["id"], { unique: true })
-@Entity("users", { schema: "public" })
+@Entity({ name: 'users' })
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     name: string;

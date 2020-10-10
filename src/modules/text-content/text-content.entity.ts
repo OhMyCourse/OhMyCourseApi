@@ -10,11 +10,11 @@ import {
 import { LessonMaterial } from "../course/lesson/lesson-material/lesson-material.entity";
 
 @Index("text_content_pk", ["id"], { unique: true })
-@Entity("text_content", { schema: "public" })
+@Entity({ name: 'text_content' })
 export class TextContent {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'text' })
     text: string;

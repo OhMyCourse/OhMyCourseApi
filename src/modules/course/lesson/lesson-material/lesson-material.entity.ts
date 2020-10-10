@@ -16,11 +16,11 @@ import { LessonType } from "../../../../common/enums/lesson-type.enum";
 import { Media } from "../../../../modules/media/media.entity";
 
 @Index("lesson_material_pk", ["id"], { unique: true })
-@Entity("lesson_material", { schema: "public" })
+@Entity({ name: 'lesson_material' })
 export class LessonMaterial {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'enum', enum: LessonType })
     type: LessonType;

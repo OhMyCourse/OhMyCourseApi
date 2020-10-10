@@ -19,16 +19,16 @@ import { User } from "../user/user.entity";
 import { UserCourseStatus } from "../../common/enums/user-course-status.enum";
 
 @Index("user_course_pk", ["id"], { unique: true })
-@Entity("user_course", { schema: "public" })
+@Entity({ name: 'user_course' })
 export class UserCourse {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'enum', enum: UserCourseStatus, default: UserCourseStatus.Started })
     status: UserCourseStatus;
 
-    @Column({ type: 'double precision', default: 0 })
+    @Column({ type: 'double precision', default: 0.0 })
     score: number;
 
     @OneToOne(
