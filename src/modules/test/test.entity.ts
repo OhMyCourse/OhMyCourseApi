@@ -12,7 +12,7 @@ import { LessonMaterial } from "../course/lesson/lesson-material/lesson-material
 import { TestOption } from "./option/test-option.entity";
 
 @Index("test_pk", ["id"], { unique: true })
-@Entity("test", { schema: "public" })
+@Entity({ name: 'test' })
 export class Test {
 
     @PrimaryGeneratedColumn()

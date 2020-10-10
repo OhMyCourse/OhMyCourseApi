@@ -11,11 +11,11 @@ import { Course } from "../course.entity";
 import { LessonMaterial } from "./lesson-material/lesson-material.entity";
 
 @Index("lesson_pk", ["id"], { unique: true })
-@Entity("lesson", { schema: "public" })
+@Entity({ name: 'lesson' })
 export class Lesson {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     title: string;
