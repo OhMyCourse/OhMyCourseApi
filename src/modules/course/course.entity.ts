@@ -17,11 +17,11 @@ import { Lesson } from "./lesson/lesson.entity";
 
 @Index("course_pk", ["id"], { unique: true })
 @Index("course_name_uindex", ["name"], { unique: true })
-@Entity("course", { schema: "public" })
+@Entity({ name: 'course' })
 export class Course {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     name: string;
@@ -35,6 +35,9 @@ export class Course {
     )
     @JoinColumn()
     media: Media;
+
+    @Column()
+    mediaId: number;
 
     @ManyToMany(() => Category)
     @JoinTable()
