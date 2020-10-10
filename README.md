@@ -29,11 +29,13 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Run server
-npm run start
+```bash
+ $ npm run start
+ ```
 
 ## Run these commands after pulling from dev
-1. npm i - resolve dependencies 
-2. npm run run-migration - update db
+1. ```bash $ npm i ``` - resolve dependencies 
+2. ```bash $ npm run run-migration ``` - update db
 
 ## Support
 
