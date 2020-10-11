@@ -26,6 +26,9 @@ export class Lesson {
     )
     course: Course;
 
+    @Column()
+    courseId: number;
+
     @OneToMany(
         () => LessonMaterial,
         lessonMaterial => lessonMaterial.lesson

@@ -13,7 +13,7 @@ import { Test } from "../test.entity";
 export class TestOption {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     title: string;
@@ -30,4 +30,7 @@ export class TestOption {
         }
     )
     test: Test;
+
+    @Column()
+    testId: number;
 }

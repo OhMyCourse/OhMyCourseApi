@@ -13,7 +13,7 @@ import {
 
 import { Certificate } from "../certificate/certificate.entity";
 import { Course } from "../course/course.entity";
-import { TestOption } from "../test/option/test-option.entity";
+import { TestOption } from "../course/lesson/lesson-material/test/option/test-option.entity";
 import { User } from "../user/user.entity";
 
 import { UserCourseStatus } from "../../common/enums/user-course-status.enum";

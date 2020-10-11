@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { LessonMaterial } from "../course/lesson/lesson-material/lesson-material.entity";
+import { LessonMaterial } from "../lesson-material.entity";
 
 @Index("text_content_pk", ["id"], { unique: true })
 @Entity({ name: 'text_content' })

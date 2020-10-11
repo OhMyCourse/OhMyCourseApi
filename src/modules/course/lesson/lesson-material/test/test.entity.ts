@@ -8,7 +8,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { LessonMaterial } from "../course/lesson/lesson-material/lesson-material.entity";
+import { LessonMaterial } from "../lesson-material.entity";
 import { TestOption } from "./option/test-option.entity";
 
 @Index("test_pk", ["id"], { unique: true })
@@ -16,7 +16,7 @@ import { TestOption } from "./option/test-option.entity";
 export class Test {
 
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     task: string;

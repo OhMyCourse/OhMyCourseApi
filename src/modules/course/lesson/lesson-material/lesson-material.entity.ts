@@ -9,8 +9,8 @@ import {
 } from "typeorm";
 
 import { Lesson } from "../lesson.entity";
-import { TextContent } from "../../../text-content/text-content.entity";
-import { Test } from "../../../test/test.entity";
+import { TextContent } from "./text-content/text-content.entity";
+import { Test } from "./test/test.entity";
 
 import { LessonType } from "../../../../common/enums/lesson-type.enum";
 import { Media } from "../../../../modules/media/media.entity";
@@ -35,6 +35,9 @@ export class LessonMaterial {
     )
     lesson: Lesson;
 
+    @Column()
+    lessonId: number;
+
     @OneToOne(
         () => Media,
         media => media.lessonMaterial,
@@ -42,6 +45,9 @@ export class LessonMaterial {
     )
     @JoinColumn()
     media: Media;
+
+    @Column()
+    mediaId: number;
 
     @OneToOne(
         () => Test,
@@ -51,6 +57,9 @@ export class LessonMaterial {
     @JoinColumn()
     test: Test;
 
+    @Column()
+    testId: number;
+
     @OneToOne(
         () => TextContent,
         textContent => textContent.lessonMaterial,
@@ -58,4 +67,7 @@ export class LessonMaterial {
     )
     @JoinColumn()
     textContent: TextContent;
+
+    @Column()
+    textContentId: number;
 }
