@@ -14,6 +14,7 @@ import { CourseService } from "./course.service";
         MediaModule
     ],
     providers: [CourseService],
-    controllers: [CourseController]
+    controllers: [CourseController],
+    exports: [CourseService]
 })
 export class CourseModule { }
