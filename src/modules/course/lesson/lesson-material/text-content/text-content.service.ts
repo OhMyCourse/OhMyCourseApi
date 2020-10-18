@@ -15,4 +15,8 @@ export class TextContentService {
         const textContent = this.textContentRepository.create(createDto);
         return this.textContentRepository.save(textContent);
     }
+
+    public async deleteById(id: number): Promise<void> {
+        await this.textContentRepository.delete(id);
+    }
 }

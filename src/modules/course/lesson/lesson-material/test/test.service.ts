@@ -31,4 +31,8 @@ export class TestService {
 
         return savedTest;
     }
+
+    public async deleteById(id: number): Promise<void> {
+        await this.testRepository.delete(id);
+    }
 }

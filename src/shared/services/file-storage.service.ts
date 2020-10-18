@@ -40,6 +40,10 @@ export class FileStorageService implements OnModuleInit {
         return this.fsAsync.readFile(this._getFilePath(fileName));
     }
 
+    public async deleteFile(fileName: string): Promise<void> {
+        this.fsAsync.unlink(this._getFilePath(fileName));
+    }
+
     private _getFilePath(fileName: string): string {
         return `${this.fileStorageDir}/${fileName}`;
     }
