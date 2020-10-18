@@ -23,6 +23,8 @@ async function bootstrap() {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
 
+  app.enableCors();
+  
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
