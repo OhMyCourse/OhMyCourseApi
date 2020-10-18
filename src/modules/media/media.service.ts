@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { File } from "../../common/type/file.type";
 import { MediaNotFoundException } from "../../exceptions/not-found/media-not-found.exception";
@@ -48,5 +49,13 @@ export class MediaService {
         });
 
         return this.mediaRepository.save(media);
+    }
+
+    @Transactional()
+    public async deleteById(id: number): Promise<void> {
+        const media = await this.getByIdOrFail(id);
+
+        await this.fileStorageService.deleteFile(media.fileName);
+        await this.mediaRepository.delete(id);
     }
 }

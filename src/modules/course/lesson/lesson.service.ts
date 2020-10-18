@@ -48,4 +48,12 @@ export class LessonService {
 
         return savedLesson;
     }
+
+    @Transactional()
+    public async deleteById(id: number): Promise<void> {
+        const lesson = await this.getByIdWithMaterialsOrFail(id);
+
+        await this.lessonMaterialFacade.deleteAttachedMaterials(lesson);
+        await this.lessonRepository.delete(id);
+    }
 }

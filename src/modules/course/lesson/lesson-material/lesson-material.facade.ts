@@ -11,6 +11,7 @@ import { CreateLessonMaterialRequestDto } from "./dto/request/create-lesson-mate
 import { LessonMaterialService } from "./lesson-material.service";
 import { TestService } from "./test/test.service";
 import { TextContentService } from "./text-content/text-content.service";
+import { Lesson } from "../lesson.entity";
 
 @Injectable()
 export class LessonMaterialFacade {
@@ -35,6 +36,13 @@ export class LessonMaterialFacade {
         return this.lessonMaterialService.createMany(lessonMaterials);
     }
 
+    @Transactional()
+    public async deleteAttachedMaterials(lesson: Lesson): Promise<void> {
+        for (const material of lesson.lessonMaterials) {
+            await this._deleteAttachedMaterial(material);
+        }
+    }
+
     private async _attachMaterial(lessonMaterial: LessonMaterial, createDto: CreateLessonMaterialRequestDto): Promise<void> {
         switch (lessonMaterial.type) {
             case LessonType.Text:
@@ -48,6 +56,20 @@ export class LessonMaterialFacade {
             default:
                 const media = await this.mediaService.getUnboundByIdOrFail(createDto.mediaId);
                 lessonMaterial.mediaId = media.id;
+                break;
+        }
+    }
+
+    private async _deleteAttachedMaterial(lessonMaterial: LessonMaterial): Promise<void> {
+        switch (lessonMaterial.type) {
+            case LessonType.Text:
+                await this.textContentService.deleteById(lessonMaterial.textContentId);
+                break;
+            case LessonType.Test:
+                await this.testService.deleteById(lessonMaterial.testId);
+                break;
+            default:
+                await this.mediaService.deleteById(lessonMaterial.mediaId);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { IdValidationPipe } from "../../../common/pipe/id-validation.pipe";
@@ -26,5 +26,10 @@ export class LessonController {
     async create(@Body() createDto: CreateLessonRequestDto) {
         const lesson = await this.lessonService.create(createDto);
         return new LessonResponseDto(lesson);
+    }
+
+    @Delete(':id')
+    async deleteById(@Param('id', IdValidationPipe) id: number) {
+        await this.lessonService.deleteById(id);
     }
 }
