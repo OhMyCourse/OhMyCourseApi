@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
 
@@ -8,10 +8,13 @@ import { CourseController } from "./course.controller";
 import { CourseRepository } from "./course.repository";
 import { CourseService } from "./course.service";
 
+import { LessonModule } from "./lesson/lesson.module";
+
 @Module({
     imports: [
         TypeOrmModule.forFeature([CourseRepository]),
-        MediaModule
+        MediaModule,
+        forwardRef(() => LessonModule)
     ],
     providers: [CourseService],
     controllers: [CourseController],

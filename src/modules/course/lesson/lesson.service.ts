@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
@@ -19,6 +19,7 @@ export class LessonService {
     constructor(
         private readonly lessonRepository: LessonRepository,
         private readonly lessonMaterialFacade: LessonMaterialFacade,
+        @Inject(forwardRef(() => CourseService))
         private readonly courseService: CourseService
     ) { }
 
@@ -55,5 +56,12 @@ export class LessonService {
 
         await this.lessonMaterialFacade.deleteAttachedMaterials(lesson);
         await this.lessonRepository.delete(id);
+    }
+
+    @Transactional()
+    public async deleteByIds(ids: number[]): Promise<void> {
+        for (const id of ids) {
+            this.deleteById(id);
+        }
     }
 }

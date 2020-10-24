@@ -12,3 +12,5 @@ package-lock.json
 
 #ESLint
 .eslintcache
+
+swagger.json
