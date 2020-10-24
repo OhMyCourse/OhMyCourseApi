@@ -12,10 +12,24 @@ export class CourseRepository extends BaseRepository<Course> {
             .getOne();
     }
 
-    public async findByIdWithMedia(id: number): Promise<Course> {
+    public async findByIdWithMediaAndLessons(id: number): Promise<Course> {
         return this.createQueryBuilder('course')
             .leftJoinAndSelect('course.media', 'media')
+            .leftJoinAndSelect('course.lessons', 'lessons')
             .where('course.id = :id', { id })
             .getOne();
+    }
+
+    public async findByIdWithLessons(id: number): Promise<Course> {
+        return this.createQueryBuilder('course')
+            .leftJoinAndSelect('course.lessons', 'lessons')
+            .where('course.id = :id', { id })
+            .getOne();
+    }
+
+    public async findAllWithMedia(): Promise<Course[]> {
+        return this.createQueryBuilder('course')
+            .leftJoinAndSelect('course.media', 'media')
+            .getMany();
     }
 }

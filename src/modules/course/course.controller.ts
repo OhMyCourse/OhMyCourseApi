@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
@@ -16,10 +16,17 @@ export class CourseController {
 
     constructor(private readonly courseService: CourseService) { }
 
+    @Get()
+    @ApiOkResponse({ type: [CourseResponseDto] })
+    async getAll() {
+        const courses = await this.courseService.getAllWithMedia();
+        return courses.map(course => new CourseResponseDto(course));
+    }
+
     @Get(':id')
     @ApiOkResponse({ type: CourseResponseDto })
     async getById(@Param('id', IdValidationPipe) id: number) {
-        const course = await this.courseService.getByIdWithMediaOrFail(id);
+        const course = await this.courseService.getByIdWithMediaAndLessonsOrFail(id);
         return new CourseResponseDto(course);
     }
 
@@ -38,5 +45,10 @@ export class CourseController {
     ) {
         const course = await this.courseService.update(updateDto, id);
         return new CourseResponseDto(course);
+    }
+
+    @Delete(':id')
+    async deleteById(@Param('id', IdValidationPipe) id: number) {
+        await this.courseService.deleteById(id);
     }
 }

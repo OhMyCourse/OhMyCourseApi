@@ -1,4 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { CourseAlreadyExistException } from "../../exceptions/conflict/course-already-exist.exception";
 import { CourseNotFoundException } from "../../exceptions/not-found/course-not-found.exception";
@@ -10,17 +11,24 @@ import { CourseRepository } from "./course.repository";
 
 import { CreateCourseRequestDto } from "./dto/request/create-course.request-dto";
 import { UpdateCourseRequestDto } from "./dto/request/update-course.request-dto";
+import { LessonService } from "./lesson/lesson.service";
 
 @Injectable()
 export class CourseService {
 
     constructor(
         private readonly courseRepository: CourseRepository,
+        @Inject(forwardRef(() => LessonService))
+        private readonly lessonService: LessonService,
         private readonly mediaService: MediaService
     ) { }
 
-    public async getByIdWithMediaOrFail(id: number): Promise<Course> {
-        const course = await this.courseRepository.findByIdWithMedia(id);
+    public async getAllWithMedia(): Promise<Course[]> {
+        return this.courseRepository.findAllWithMedia();
+    }
+
+    public async getByIdWithMediaAndLessonsOrFail(id: number): Promise<Course> {
+        const course = await this.courseRepository.findByIdWithMediaAndLessons(id);
         if (!course) {
             throw new CourseNotFoundException();
         }
@@ -35,6 +43,13 @@ export class CourseService {
         return course;
     }
 
+    public async getByIdWithLessonsOrFail(id: number): Promise<Course> {
+        const course = await this.courseRepository.findByIdWithLessons(id);
+        if (!course) {
+            throw new CourseNotFoundException();
+        }
+        return course;
+    }
 
     public async create(createDto: CreateCourseRequestDto): Promise<Course> {
         const oldCourse = await this.courseRepository.findByName(createDto.name);
@@ -57,5 +72,15 @@ export class CourseService {
         const mergedCourse = this.courseRepository.merge(course, updateDto);
 
         return this.courseRepository.save(mergedCourse);
+    }
+
+    @Transactional()
+    public async deleteById(id: number): Promise<void> {
+        const course = await this.getByIdWithLessonsOrFail(id);
+        const lessonIds = course.lessons.map(lesson => lesson.id);
+
+        await this.lessonService.deleteByIds(lessonIds);
+
+        await this.courseRepository.delete(id);
     }
 }

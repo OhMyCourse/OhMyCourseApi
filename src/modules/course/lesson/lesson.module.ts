@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
 
@@ -13,7 +13,7 @@ import { CourseModule } from "../course.module";
     imports: [
         TypeOrmModule.forFeature([LessonRepository]),
         LessonMaterialModule,
-        CourseModule
+        forwardRef(() => CourseModule)
     ],
     providers: [LessonService],
     controllers: [LessonController],

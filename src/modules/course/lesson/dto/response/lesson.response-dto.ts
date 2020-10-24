@@ -10,7 +10,7 @@ export class LessonResponseDto {
     @ApiResponseProperty()
     title: string;
 
-    @ApiResponseProperty({ type: LessonMaterialResponseDto })
+    @ApiResponseProperty({ type: [LessonMaterialResponseDto] })
     materials: LessonMaterialResponseDto[];
 
     constructor(lesson: Lesson) {
