@@ -11,6 +11,7 @@ export class LessonMaterialRepository extends BaseRepository<LessonMaterial> {
             .leftJoinAndSelect('lessonMaterials.media', 'media')
             .leftJoinAndSelect('lessonMaterials.textContent', 'textContent')
             .leftJoinAndSelect('lessonMaterials.test', 'test')
+            .leftJoinAndSelect('test.testOptions', 'testOptions')
             .where('lessonMaterials.id = :id', { id })
             .getOne();
     }
