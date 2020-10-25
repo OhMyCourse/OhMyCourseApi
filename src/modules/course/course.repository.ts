@@ -16,6 +16,10 @@ export class CourseRepository extends BaseRepository<Course> {
         return this.createQueryBuilder('course')
             .leftJoinAndSelect('course.media', 'media')
             .leftJoinAndSelect('course.lessons', 'lessons')
+            .leftJoinAndSelect('lessons.lessonMaterials', 'lessonMaterials')
+            .leftJoinAndSelect('lessonMaterials.media', 'materialMedia')
+            .leftJoinAndSelect('lessonMaterials.textContent', 'textContent')
+            .leftJoinAndSelect('lessonMaterials.test', 'test')
             .where('course.id = :id', { id })
             .getOne();
     }
