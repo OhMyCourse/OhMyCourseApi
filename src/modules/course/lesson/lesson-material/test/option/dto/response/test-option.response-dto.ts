@@ -10,8 +10,12 @@ export class TestOptionResponseDto {
     @ApiResponseProperty()
     title: string;
 
+    @ApiResponseProperty()
+    isRight: boolean;
+
     constructor(testOption: TestOption) {
         this.id = testOption.id;
         this.title = testOption.title;
+        this.isRight = testOption.isRight;
     }
 }
