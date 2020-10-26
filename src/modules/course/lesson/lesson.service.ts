@@ -61,7 +61,7 @@ export class LessonService {
     @Transactional()
     public async deleteByIds(ids: number[]): Promise<void> {
         for (const id of ids) {
-            this.deleteById(id);
+            await this.deleteById(id);
         }
     }
 }
