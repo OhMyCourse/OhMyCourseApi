@@ -14,6 +14,7 @@ import { Test } from "./test/test.entity";
 
 import { LessonType } from "../../../../common/enums/lesson-type.enum";
 import { Media } from "../../../../modules/media/media.entity";
+import { type } from "os";
 
 @Index("lesson_material_pk", ["id"], { unique: true })
 @Entity({ name: 'lesson_material' })
@@ -24,6 +25,9 @@ export class LessonMaterial {
 
     @Column({ type: 'enum', enum: LessonType })
     type: LessonType;
+
+    @Column({ type: 'int' })
+    order: number;
 
     @ManyToOne(
         () => Lesson,
