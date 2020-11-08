@@ -37,6 +37,7 @@ export class LessonService {
 
         const lesson = this.lessonRepository.create({
             title: createDto.title,
+            description: createDto.description,
             courseId: createDto.courseId
         });
         const savedLesson = await this.lessonRepository.save(lesson);

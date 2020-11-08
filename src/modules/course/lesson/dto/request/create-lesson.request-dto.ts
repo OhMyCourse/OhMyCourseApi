@@ -15,6 +15,11 @@ export class CreateLessonRequestDto {
     title: string;
 
     @ApiProperty()
+    @IsNotEmpty()
+    @MaxLength(500)
+    description: string;
+
+    @ApiProperty()
     @IsId()
     courseId: number;
 
