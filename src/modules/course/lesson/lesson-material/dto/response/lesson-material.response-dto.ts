@@ -15,6 +15,9 @@ export class LessonMaterialResponseDto {
     @ApiResponseProperty({ enum: LessonType })
     type: LessonType;
 
+    @ApiResponseProperty()
+    order: number;
+
     @ApiResponseProperty({ type: MediaResponseDto })
     media: MediaResponseDto;
 
@@ -27,6 +30,7 @@ export class LessonMaterialResponseDto {
     constructor(lessonMaterial: LessonMaterial) {
         this.id = lessonMaterial.id;
         this.type = lessonMaterial.type;
+        this.order = lessonMaterial.order;
 
         if (lessonMaterial.media) this.media = new MediaResponseDto(lessonMaterial.media);
         if (lessonMaterial.textContent) this.textContent = new TextContentResponseDto(lessonMaterial.textContent);

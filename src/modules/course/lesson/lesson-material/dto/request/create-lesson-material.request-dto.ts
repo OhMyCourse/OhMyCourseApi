@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 
-import { IsEnum, IsOptional, ValidateIf, ValidateNested } from "class-validator";
+import { IsEnum, IsInt, IsOptional, Min, ValidateIf, ValidateNested } from "class-validator";
 
 import { IsId } from "../../../../../../common/decorators/is-id.decorator";
 
@@ -15,6 +15,11 @@ export class CreateLessonMaterialRequestDto {
     @ApiProperty({ enum: LessonType })
     @IsEnum(LessonType)
     type: LessonType;
+
+    @ApiProperty()
+    @IsInt()
+    @Min(0)
+    order: number;
 
     @ApiProperty()
     @IsOptional()

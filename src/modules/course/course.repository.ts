@@ -21,6 +21,7 @@ export class CourseRepository extends BaseRepository<Course> {
             .leftJoinAndSelect('lessonMaterials.textContent', 'textContent')
             .leftJoinAndSelect('lessonMaterials.test', 'test')
             .where('course.id = :id', { id })
+            .orderBy('lessonMaterials.order', 'ASC')
             .getOne();
     }
 

@@ -31,6 +31,7 @@ export class LessonMaterialService {
     public createEntity(createDto: CreateLessonMaterialRequestDto, lessonId: number): LessonMaterial {
         return this.lessonMaterialRepository.create({
             type: createDto.type,
+            order: createDto.order,
             lessonId: lessonId
         });
     }

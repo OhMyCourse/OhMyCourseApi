@@ -14,6 +14,7 @@ export class LessonRepository extends BaseRepository<Lesson> {
             .leftJoinAndSelect('lessonMaterials.test', 'test')
             .leftJoinAndSelect('test.testOptions', 'testOptions')
             .where('lesson.id = :id', { id })
+            .orderBy('lessonMaterials.order', 'ASC')
             .getOne();
     }
 }
