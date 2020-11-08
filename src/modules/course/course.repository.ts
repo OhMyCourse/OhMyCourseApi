@@ -35,6 +35,12 @@ export class CourseRepository extends BaseRepository<Course> {
     public async findAllWithMedia(): Promise<Course[]> {
         return this.createQueryBuilder('course')
             .leftJoinAndSelect('course.media', 'media')
+            .leftJoinAndSelect('course.lessons', 'lessons')
+            .leftJoinAndSelect('lessons.lessonMaterials', 'lessonMaterials')
+            .leftJoinAndSelect('lessonMaterials.media', 'materialMedia')
+            .leftJoinAndSelect('lessonMaterials.textContent', 'textContent')
+            .leftJoinAndSelect('lessonMaterials.test', 'test')
+            .orderBy('lessonMaterials.order', 'ASC')
             .getMany();
     }
 }
