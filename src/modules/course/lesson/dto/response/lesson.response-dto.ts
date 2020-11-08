@@ -10,12 +10,16 @@ export class LessonResponseDto {
     @ApiResponseProperty()
     title: string;
 
+    @ApiResponseProperty()
+    description: string;
+
     @ApiResponseProperty({ type: [LessonMaterialResponseDto] })
     materials: LessonMaterialResponseDto[];
 
     constructor(lesson: Lesson) {
         this.id = lesson.id;
         this.title = lesson.title;
+        this.description = lesson.description;
         this.materials = lesson.lessonMaterials?.map(material => new LessonMaterialResponseDto(material));
     }
 }

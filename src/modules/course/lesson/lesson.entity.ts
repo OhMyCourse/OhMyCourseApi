@@ -20,6 +20,9 @@ export class Lesson {
     @Column({ type: 'varchar', length: 255 })
     title: string;
 
+    @Column({ type: 'text', nullable: true })
+    description: string;
+
     @ManyToOne(
         () => Course,
         course => course.lessons
