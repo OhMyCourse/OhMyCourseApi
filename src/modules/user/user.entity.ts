@@ -29,6 +29,9 @@ export class User {
     @Column({ type: 'varchar', length: 255 })
     email: string;
 
+    @Column({ type: 'varchar', length: 500 })
+    password: string;
+
     @Column({ type: Date })
     birthday: Date;
 
@@ -36,7 +39,7 @@ export class User {
     bio?: string;
 
     @Column({ unique: true })
-    mediaId: string;
+    mediaId: number;
 
     @OneToMany(
         () => UserCourse,
