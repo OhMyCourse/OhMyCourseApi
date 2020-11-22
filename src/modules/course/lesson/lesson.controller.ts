@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { IdValidationPipe } from "../../../common/pipe/id-validation.pipe";
 
@@ -7,9 +7,12 @@ import { LessonService } from "./lesson.service";
 
 import { LessonResponseDto } from "./dto/response/lesson.response-dto";
 import { CreateLessonRequestDto } from "./dto/request/create-lesson.request-dto";
+import { JwtGuard } from "../../guards/jwt.guard";
 
 @ApiTags('lesson')
 @Controller('lesson')
+@UseGuards(JwtGuard)
+@ApiBearerAuth()
 export class LessonController {
 
     constructor(private readonly lessonService: LessonService) { }
