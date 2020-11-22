@@ -39,9 +39,9 @@ export class Media {
     )
     lessonMaterial: LessonMaterial;
 
-    @OneToOne(
+    @OneToMany(
         () => User,
         users => users.media
     )
-    user: User;
+    users: User[];
 }  

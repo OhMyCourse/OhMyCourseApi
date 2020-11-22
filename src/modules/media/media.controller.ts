@@ -1,8 +1,8 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 
 import { FileInterceptor } from "@nestjs/platform-express";
 
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { IdValidationPipe } from "../../common/pipe/id-validation.pipe";
 import { SwaggerFileType } from "../../common/swagger/swagger-file.type";
 import { File } from "../../common/type/file.type";
@@ -12,9 +12,12 @@ import { MediaResponseDto } from "./dto/response/media.response-dto";
 import { MediaService } from "./media.service";
 
 import { Response } from 'express';
+import { JwtGuard } from "../guards/jwt.guard";
 
 @ApiTags('media')
 @Controller('media')
+@UseGuards(JwtGuard)
+@ApiBearerAuth()
 export class MediaController {
 
     constructor(private readonly mediaService: MediaService) { }

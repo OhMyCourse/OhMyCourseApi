@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { JwtAuthModule } from "../../shared/services/jwt/jwt-auth.module";
 import { SharedModule } from "../../shared/shared.module";
 import { MediaModule } from "../media/media.module";
 import { UserController } from "./user.controller";
@@ -10,7 +11,8 @@ import { UserService } from "./user.service";
     imports: [
         TypeOrmModule.forFeature([UserRepository]),
         SharedModule,
-        MediaModule
+        MediaModule,
+        JwtAuthModule
     ],
     providers: [UserService],
     controllers: [UserController],

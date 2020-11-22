@@ -38,7 +38,7 @@ export class User {
     @Column({ type: 'text', nullable: true })
     bio?: string;
 
-    @Column({ unique: true })
+    @Column()
     mediaId: number;
 
     @OneToMany(
@@ -47,10 +47,9 @@ export class User {
     )
     userCourses: UserCourse[];
 
-    @OneToOne(
+    @ManyToOne(
         () => Media,
-        media => media.user
+        media => media.users
     )
-    @JoinColumn()
     media: Media;
 }
