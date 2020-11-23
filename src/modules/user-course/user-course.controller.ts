@@ -34,4 +34,20 @@ export class UserCourseController {
             userId: userId
         });
     }
+
+    @Post('user/:userId/lesson/:lessonId/finish')
+    async passLesson(
+        @Param('lessonId') lessonId: number,
+        @Param('userId') userId: number
+    ) {
+        return this.userCourseService.passLesson(lessonId, userId);
+    }
+
+    @Post('course/:courseId/user/:userId/complete')
+    async completeCourse(
+        @Param('courseId') courseId: number,
+        @Param('userId') userId: number
+    ) {
+        return this.userCourseService.completeCourse(courseId, userId);
+    }
 }

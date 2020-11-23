@@ -16,8 +16,6 @@ import { JwtGuard } from "../guards/jwt.guard";
 
 @ApiTags('media')
 @Controller('media')
-@UseGuards(JwtGuard)
-@ApiBearerAuth()
 export class MediaController {
 
     constructor(private readonly mediaService: MediaService) { }
