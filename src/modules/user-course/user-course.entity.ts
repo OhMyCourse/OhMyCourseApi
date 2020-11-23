@@ -59,4 +59,8 @@ export class UserCourse {
     @ManyToMany(() => TestOption)
     @JoinTable()
     testOptions: TestOption[];
+
+    @ManyToMany(() => Lesson)
+    @JoinTable()
+    passedLessons: Lesson[];
 }
