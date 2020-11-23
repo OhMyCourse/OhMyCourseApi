@@ -6,6 +6,7 @@ import { LessonModule } from './modules/course/lesson/lesson.module';
 import { JwtGuard } from './modules/guards/jwt.guard';
 import { MediaModule } from './modules/media/media.module';
 import { StrategyModule } from './modules/strategy/strategy.module';
+import { UserCourseModule } from './modules/user-course/user-course.module';
 import { UserModule } from './modules/user/user.module';
 
 import { ConfigService } from './shared/services/config.service';
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
     LessonModule,
     UserModule,
     StrategyModule,
+    UserCourseModule,
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => configService.typeOrmConfig,
       inject: [ConfigService],
