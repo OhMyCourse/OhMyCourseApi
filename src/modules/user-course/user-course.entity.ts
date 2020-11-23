@@ -17,6 +17,7 @@ import { TestOption } from "../course/lesson/lesson-material/test/option/test-op
 import { User } from "../user/user.entity";
 
 import { UserCourseStatus } from "../../common/enums/user-course-status.enum";
+import { Lesson } from "../course/lesson/lesson.entity";
 
 @Index("user_course_pk", ["id"], { unique: true })
 @Entity({ name: 'user_course' })
@@ -43,11 +44,17 @@ export class UserCourse {
     )
     course: Course;
 
+    @Column()
+    courseId: number;
+
     @ManyToOne(
         () => User,
         users => users.userCourses
     )
     user: User;
+
+    @Column()
+    userId: number;
 
     @ManyToMany(() => TestOption)
     @JoinTable()
