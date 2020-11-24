@@ -1,7 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsEmail, IsOptional } from "class-validator";
+import { IsDateString, IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 
 export class UpdateUserRequestDto {
+
+    @ApiProperty()
+    @IsNotEmpty()
+    name: string;
 
     @ApiProperty()
     @IsEmail()
@@ -9,11 +13,11 @@ export class UpdateUserRequestDto {
 
     @ApiProperty()
     @IsDateString()
-    birthday: Date;
+    dateOfBirth: Date;
 
     @ApiProperty()
     @IsOptional()
-    bio?: string;
+    biography?: string;
 
     @ApiProperty()
     @IsOptional()
