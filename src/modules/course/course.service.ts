@@ -51,7 +51,11 @@ export class CourseService {
         return course;
     }
 
-    public async create(createDto: CreateCourseRequestDto): Promise<Course> {
+    public async getUserCreatedCourses(userId: number): Promise<Course[]> {
+        return this.courseRepository.find({ userId: userId });
+    }
+
+    public async create(createDto: CreateCourseRequestDto, userId: number): Promise<Course> {
         const oldCourse = await this.courseRepository.findByName(createDto.name);
         if (oldCourse) {
             throw new CourseAlreadyExistException();
@@ -59,7 +63,8 @@ export class CourseService {
 
         await this.mediaService.getUnboundByIdOrFail(createDto.mediaId);
 
-        const course = this.courseRepository.create(createDto);
+        const course = this.courseRepository.create({ ...createDto, userId: userId });
+
         return this.courseRepository.save(course);
     }
 

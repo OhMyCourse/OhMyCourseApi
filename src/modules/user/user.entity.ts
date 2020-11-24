@@ -8,6 +8,7 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import { Course } from "../course/course.entity";
 
 import { Media } from "../media/media.entity";
 import { UserCourse } from "../user-course/user-course.entity";
@@ -46,6 +47,12 @@ export class User {
         userCourse => userCourse.user
     )
     userCourses: UserCourse[];
+
+    @OneToMany(
+        () => Course,
+        course => course.user
+    )
+    createdCourses: Course[];
 
     @ManyToOne(
         () => Media,

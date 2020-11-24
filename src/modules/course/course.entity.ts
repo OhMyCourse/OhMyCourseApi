@@ -5,6 +5,7 @@ import {
     JoinColumn,
     JoinTable,
     ManyToMany,
+    ManyToOne,
     OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
@@ -13,6 +14,7 @@ import {
 import { Category } from "../category/category.entity";
 import { Media } from "../media/media.entity";
 import { UserCourse } from "../user-course/user-course.entity";
+import { User } from "../user/user.entity";
 import { Lesson } from "./lesson/lesson.entity";
 
 @Index("course_pk", ["id"], { unique: true })
@@ -28,6 +30,15 @@ export class Course {
 
     @Column({ type: 'text' })
     description: string;
+    
+    @ManyToOne(
+        () => User,
+        user => user.createdCourses
+    )
+    user: User;
+
+    @Column()
+    userId: number;
 
     @OneToOne(
         () => Media,

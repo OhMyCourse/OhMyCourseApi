@@ -42,4 +42,5 @@ export class UserController {
         const token = await this.userService.login(loginDto);
         return { token: token };
     }
+
 }

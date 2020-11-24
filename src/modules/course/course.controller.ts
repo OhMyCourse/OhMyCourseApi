@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
@@ -26,6 +26,13 @@ export class CourseController {
         return courses.map(course => new CourseResponseDto(course));
     }
 
+    @Get('self')
+    @UseGuards(JwtGuard)
+    @ApiBearerAuth()
+    async getCreatedCourses(@Req() req) {
+        return this.courseService.getUserCreatedCourses(req.user.id);
+    }
+
     @Get(':id')
     @ApiOkResponse({ type: CourseResponseDto })
     async getById(@Param('id', IdValidationPipe) id: number) {
@@ -35,8 +42,11 @@ export class CourseController {
 
     @Post()
     @ApiOkResponse({ type: CourseResponseDto })
-    async create(@Body() createDto: CreateCourseRequestDto) {
-        const course = await this.courseService.create(createDto);
+    async create(
+        @Body() createDto: CreateCourseRequestDto,
+        @Req() req
+    ) {
+        const course = await this.courseService.create(createDto, req.user.id);
         return new CourseResponseDto(course);
     }
 
