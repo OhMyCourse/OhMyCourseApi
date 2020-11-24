@@ -9,11 +9,11 @@ export class UpdateUserRequestDto {
 
     @ApiProperty()
     @IsDateString()
-    dateOfBirth: Date;
+    birthday: Date;
 
     @ApiProperty()
     @IsOptional()
-    biography?: string;
+    bio?: string;
 
     @ApiProperty()
     @IsOptional()

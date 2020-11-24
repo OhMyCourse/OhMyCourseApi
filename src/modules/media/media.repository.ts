@@ -10,7 +10,7 @@ export class MediaRepository extends BaseRepository<Media> {
         return this.createQueryBuilder('media')
             .leftJoinAndSelect('media.course', 'course')
             .leftJoinAndSelect('media.lessonMaterial', 'lessonMaterial')
-            .leftJoinAndSelect('media.user', 'user')
+            .leftJoinAndSelect('media.users', 'user')
             .where('media.id = :id', { id })
             .andWhere('course.id IS NULL')
             .andWhere('lessonMaterial.id IS NULL')

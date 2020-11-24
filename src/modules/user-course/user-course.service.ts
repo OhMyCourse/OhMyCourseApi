@@ -21,6 +21,7 @@ export class UserCourseService {
             .leftJoinAndSelect('userCourse.passedLessons', 'passedLessons')
             .leftJoinAndSelect('userCourse.course', 'course')
             .leftJoinAndSelect('userCourse.user', 'user')
+            .leftJoinAndSelect('course.lessons', 'lessons')
             .where('userCourse.userId = :userId', { userId: userId })
             .getMany();
     }
