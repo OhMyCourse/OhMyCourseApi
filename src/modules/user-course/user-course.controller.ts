@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { IncrementScoreRequestDto } from "./dto/increment-score.request-dto";
 import { UserCourseService } from "./user-course.service";
 
 @ApiTags('userCourse')
@@ -49,5 +50,10 @@ export class UserCourseController {
         @Param('userId') userId: number
     ) {
         return this.userCourseService.completeCourse(courseId, userId);
+    }
+
+    @Post('incrementScore')
+    async incrementScore(@Body() incrementScoreDto: IncrementScoreRequestDto) {
+        await this.userCourseService.incrementScore(incrementScoreDto);
     }
 }

@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 import { UserCourseStatus } from "../../common/enums/user-course-status.enum";
 import { Lesson } from "../course/lesson/lesson.entity";
 import { LessonService } from "../course/lesson/lesson.service";
 import { UserService } from "../user/user.service";
+import { IncrementScoreRequestDto } from "./dto/increment-score.request-dto";
 import { SubscribeUserRequestDto } from "./dto/subscribe-user.request-dto";
 import { UserCourse } from "./user-course.entity";
 import { UserCourseRepository } from "./user-course.repository";
@@ -86,5 +87,15 @@ export class UserCourseService {
         userCourse.status = UserCourseStatus.Finished;
 
         return this.userCourseRepository.save(userCourse);
+    }
+
+    public async incrementScore(incrementScoreDto: IncrementScoreRequestDto): Promise<void> {
+        const userCourse = await this.userCourseRepository.findOne(incrementScoreDto.subscriptionId);
+        if (!userCourse) {
+            throw new NotFoundException('Subscription not found!');
+        }
+
+        userCourse.score += incrementScoreDto.score;
+        await this.userCourseRepository.save(userCourse);
     }
 }
