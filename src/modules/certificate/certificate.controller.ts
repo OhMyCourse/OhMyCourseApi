@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { CreateCertificateRequestDto } from "./dto/create-certificate.request-dto";
@@ -8,6 +8,11 @@ import { CreateCertificateRequestDto } from "./dto/create-certificate.request-dt
 export class CertificateController {
 
     constructor(private readonly certificateService: CertificateService) { }
+
+    @Get('userCertificates')
+    async getUserCertificates(@Query('userId') userId: number) {
+        return this.certificateService.getUserCertificates(userId);
+    }
 
     @Get(':id')
     async getById(@Param('id') id: number) {

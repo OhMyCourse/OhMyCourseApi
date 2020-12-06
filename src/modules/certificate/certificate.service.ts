@@ -11,6 +11,13 @@ export class CertificateService {
         private readonly userCourseRepository: UserCourseRepository
     ) { }
 
+    public async getUserCertificates(userId: number) {
+        return this.certificateRepository.createQueryBuilder('certificate')
+            .leftJoinAndSelect('certificate.userCourse', 'userCourse')
+            .where('userCourse.userId = :userId', { userId })
+            .getMany();
+    }
+
     public async getByIdOrFail(id: number) {
         const certificate = await this.certificateRepository.findOne(id, { relations: ['userCourse'] });
         if (!certificate) {
@@ -28,7 +35,7 @@ export class CertificateService {
         if (!userCourse) {
             throw new NotFoundException('Subscription not found!');
         }
-      
+
         const oldCertificate = await this.certificateRepository.findOne({ userCourseId: userCourse.id });
         if (oldCertificate) {
             throw new ConflictException('Certificate already exists!');
