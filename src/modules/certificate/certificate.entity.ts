@@ -1,5 +1,6 @@
 import {
     Column,
+    CreateDateColumn,
     Entity,
     Index,
     JoinColumn,
@@ -9,7 +10,6 @@ import {
 
 import { UserCourse } from "../user-course/user-course.entity";
 
-@Index("certificate_file_name_uindex", ["fileName"], { unique: true })
 @Index("certificate_pk", ["id"], { unique: true })
 @Entity({ name: 'certificate' })
 export class Certificate {
@@ -17,8 +17,11 @@ export class Certificate {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', length: 255 })
-    fileName: string;
+    @CreateDateColumn()
+    date: Date;
+
+    @Column()
+    userCourseId: number;
 
     @OneToOne(
         () => UserCourse,
