@@ -1,11 +1,15 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { UserCourseRepository } from "../user-course/user-course.repository";
 import { CertificateRepository } from "./certificate.repository";
 import { CreateCertificateRequestDto } from "./dto/create-certificate.request-dto";
 
 @Injectable()
 export class CertificateService {
 
-    constructor(private readonly certificateRepository: CertificateRepository) { }
+    constructor(
+        private readonly certificateRepository: CertificateRepository,
+        private readonly userCourseRepository: UserCourseRepository
+    ) { }
 
     public async getByIdOrFail(id: number) {
         const certificate = await this.certificateRepository.findOne(id, { relations: ['userCourse'] });
@@ -16,12 +20,23 @@ export class CertificateService {
     }
 
     public async create(createCertificateDto: CreateCertificateRequestDto) {
-        const oldCertificate = await this.certificateRepository.findOne({ userCourseId: createCertificateDto.userCourseId });
+        const userCourse = await this.userCourseRepository.findOne({
+            userId: createCertificateDto.userId,
+            courseId: createCertificateDto.courseId
+        })
+
+        if (!userCourse) {
+            throw new NotFoundException('Subscription not found!');
+        }
+      
+        const oldCertificate = await this.certificateRepository.findOne({ userCourseId: userCourse.id });
         if (oldCertificate) {
             throw new ConflictException('Certificate already exists!');
         }
 
-        const certificate = this.certificateRepository.create(createCertificateDto);
+        const certificate = this.certificateRepository.create();
+        certificate.userCourse = userCourse;
+
         return this.certificateRepository.save(certificate);
     }
 

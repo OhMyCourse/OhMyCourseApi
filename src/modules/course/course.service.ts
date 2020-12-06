@@ -10,6 +10,7 @@ import { Course } from "./course.entity";
 import { CourseRepository } from "./course.repository";
 
 import { CreateCourseRequestDto } from "./dto/request/create-course.request-dto";
+import { FilterCourseRequestDto } from "./dto/request/filter-course.request-dto";
 import { UpdateCourseRequestDto } from "./dto/request/update-course.request-dto";
 import { LessonService } from "./lesson/lesson.service";
 
@@ -22,6 +23,10 @@ export class CourseService {
         private readonly lessonService: LessonService,
         private readonly mediaService: MediaService
     ) { }
+
+    public async filter(filterCourseDto: FilterCourseRequestDto) {
+        return this.courseRepository.filter(filterCourseDto);
+    }
 
     public async getAllWithMedia(): Promise<Course[]> {
         return this.courseRepository.findAllWithMedia();

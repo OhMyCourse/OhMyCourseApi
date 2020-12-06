@@ -90,7 +90,10 @@ export class UserCourseService {
     }
 
     public async incrementScore(incrementScoreDto: IncrementScoreRequestDto): Promise<void> {
-        const userCourse = await this.userCourseRepository.findOne(incrementScoreDto.subscriptionId);
+        const userCourse = await this.userCourseRepository.findOne({
+            courseId: incrementScoreDto.courseId,
+            userId: incrementScoreDto.userId
+        });
         if (!userCourse) {
             throw new NotFoundException('Subscription not found!');
         }

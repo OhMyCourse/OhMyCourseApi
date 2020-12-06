@@ -7,7 +7,11 @@ export class IncrementScoreRequestDto {
 
     @ApiProperty()
     @IsId()
-    subscriptionId: number;
+    userId: number;
+
+    @ApiProperty()
+    @IsId()
+    courseId: number;
 
     @ApiProperty()
     @IsNumber()
