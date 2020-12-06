@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, MaxLength } from "class-validator";
+import { IsEnum, IsNotEmpty, MaxLength } from "class-validator";
 
 import { IsId } from "../../../../common/decorators/is-id.decorator";
+import { CourseCategory } from "../../../../common/enums/course-category.enum";
 
 export class CreateCourseRequestDto {
 
@@ -17,4 +18,8 @@ export class CreateCourseRequestDto {
     @ApiProperty()
     @IsId()
     mediaId: number;
+
+    @ApiProperty({ enum: CourseCategory })
+    @IsEnum(CourseCategory)
+    category: CourseCategory;
 }

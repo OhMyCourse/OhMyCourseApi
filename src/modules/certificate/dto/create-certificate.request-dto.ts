@@ -5,5 +5,9 @@ export class CreateCertificateRequestDto {
 
     @ApiProperty()
     @IsId()
-    userCourseId: number;
+    userId: number;
+
+    @ApiProperty()
+    @IsId()
+    courseId: number;
 }

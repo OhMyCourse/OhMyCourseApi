@@ -10,6 +10,7 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import { CourseCategory } from "../../common/enums/course-category.enum";
 
 import { Category } from "../category/category.entity";
 import { Media } from "../media/media.entity";
@@ -30,7 +31,10 @@ export class Course {
 
     @Column({ type: 'text' })
     description: string;
-    
+
+    @Column({ type: 'enum', enum: CourseCategory, default: CourseCategory.Engineering })
+    category: CourseCategory;
+
     @ManyToOne(
         () => User,
         user => user.createdCourses

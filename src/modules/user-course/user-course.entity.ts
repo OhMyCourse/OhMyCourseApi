@@ -40,7 +40,8 @@ export class UserCourse {
 
     @ManyToOne(
         () => Course,
-        course => course.userCourses
+        course => course.userCourses,
+        { onDelete: 'SET NULL' }
     )
     course: Course;
 

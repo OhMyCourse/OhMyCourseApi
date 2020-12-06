@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
@@ -8,6 +8,7 @@ import { JwtGuard } from "../guards/jwt.guard";
 import { CourseService } from "./course.service";
 
 import { CreateCourseRequestDto } from "./dto/request/create-course.request-dto";
+import { FilterCourseRequestDto } from "./dto/request/filter-course.request-dto";
 import { UpdateCourseRequestDto } from "./dto/request/update-course.request-dto";
 import { CourseResponseDto } from "./dto/response/course.response-dto";
 
@@ -18,6 +19,11 @@ import { CourseResponseDto } from "./dto/response/course.response-dto";
 export class CourseController {
 
     constructor(private readonly courseService: CourseService) { }
+
+    @Get('/filter')
+    async filter(@Query() query: FilterCourseRequestDto) {
+        return this.courseService.filter(query);
+    }
 
     @Get()
     @ApiOkResponse({ type: [CourseResponseDto] })
