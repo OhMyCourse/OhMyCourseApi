@@ -23,6 +23,13 @@ export class LessonService {
         private readonly courseService: CourseService
     ) { }
 
+    public async getMaxScores(lessonId: number, userId: number): Promise<{ maxLessonScore: number, userLessonScore: number }> {
+        return {
+            maxLessonScore: await this.lessonRepository.findMaxScore(lessonId),
+            userLessonScore: await this.lessonRepository.findUserMaxScore(lessonId, userId)
+        }
+    }
+
     public async getByIdWithMaterialsOrFail(id: number): Promise<Lesson> {
         const lesson = await this.lessonRepository.findByIdWithMaterials(id);
         if (!lesson) {

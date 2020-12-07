@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { IdValidationPipe } from "../../../common/pipe/id-validation.pipe";
@@ -16,6 +16,11 @@ import { JwtGuard } from "../../guards/jwt.guard";
 export class LessonController {
 
     constructor(private readonly lessonService: LessonService) { }
+
+    @Get('maxScore')
+    async maxScore(@Query('userId') userId: number, @Query('lessonId') lessonId: number) {
+        return this.lessonService.getMaxScores(lessonId, userId);
+    }
 
     @Get(':id')
     @ApiOkResponse({ type: LessonResponseDto })
