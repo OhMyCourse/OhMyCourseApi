@@ -1,6 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 import { UserCourseStatus } from "../../common/enums/user-course-status.enum";
+import { CourseRepository } from "../course/course.repository";
 import { Lesson } from "../course/lesson/lesson.entity";
 import { LessonService } from "../course/lesson/lesson.service";
 import { UserService } from "../user/user.service";
@@ -14,17 +15,24 @@ export class UserCourseService {
 
     constructor(
         private readonly userCourseRepository: UserCourseRepository,
+        private readonly courseRepository: CourseRepository,
         private readonly lessonService: LessonService
     ) { }
 
-    public async getUserCourses(userId: number) {
-        return this.userCourseRepository.createQueryBuilder('userCourse')
+    public async getUserCourses(userId: number): Promise<[UserCourse[], number[]]> {
+        const courses = await this.userCourseRepository.createQueryBuilder('userCourse')
             .leftJoinAndSelect('userCourse.passedLessons', 'passedLessons')
             .leftJoinAndSelect('userCourse.course', 'course')
             .leftJoinAndSelect('userCourse.user', 'user')
             .leftJoinAndSelect('course.lessons', 'lessons')
             .where('userCourse.userId = :userId', { userId: userId })
             .getMany();
+
+        const maxScores = await Promise.all(courses.map(course => Promise.resolve(
+            this.courseRepository.findMaxScore(course.courseId)
+        )));
+
+        return [courses, maxScores];
     }
 
     public async subscribe(subscribeDto: SubscribeUserRequestDto): Promise<UserCourse> {

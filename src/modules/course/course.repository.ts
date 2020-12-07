@@ -14,6 +14,18 @@ export class CourseRepository extends BaseRepository<Course> {
             .getOne();
     }
 
+    public async findMaxScore(id: number): Promise<number> {
+        const response = await this.createQueryBuilder('course')
+            .leftJoin('course.lessons', 'lessons')
+            .leftJoin('lessons.lessonMaterials', 'lessonMaterials')
+            .leftJoin('lessonMaterials.test', 'test')
+            .select('COALESCE(SUM(test.score), 0) AS max_score')
+            .where('course.id = :id', { id })
+            .getRawOne();
+
+            return response['max_score'];
+    }
+
     public async filter(filterCourseDto: FilterCourseRequestDto) {
         const queryBuilder = this.createQueryBuilder('course')
             .leftJoinAndSelect('course.media', 'media')
@@ -24,7 +36,7 @@ export class CourseRepository extends BaseRepository<Course> {
             .leftJoinAndSelect('lessonMaterials.test', 'test')
 
         if (filterCourseDto.name) {
-            queryBuilder.where('course.name = :name', { name: filterCourseDto.name })
+            queryBuilder.where('course.name LIKE :name', { name: `%${filterCourseDto.name}%` })
         }
 
         if (filterCourseDto.name && filterCourseDto.category) {

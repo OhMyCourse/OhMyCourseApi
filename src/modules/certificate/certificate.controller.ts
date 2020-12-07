@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/commo
 import { ApiTags } from "@nestjs/swagger";
 import { CertificateService } from "./certificate.service";
 import { CreateCertificateRequestDto } from "./dto/create-certificate.request-dto";
+import { UserCertificateResponseDto } from "./dto/user-certificate.response-dto";
 
 @ApiTags('certificate')
 @Controller('certificate')
@@ -11,7 +12,8 @@ export class CertificateController {
 
     @Get('userCertificates')
     async getUserCertificates(@Query('userId') userId: number) {
-        return this.certificateService.getUserCertificates(userId);
+        const [certificates, maxScores] = await this.certificateService.getUserCertificates(userId);
+        return certificates.map((certificate, i) => new UserCertificateResponseDto(certificate, maxScores[i]));
     }
 
     @Get(':id')
