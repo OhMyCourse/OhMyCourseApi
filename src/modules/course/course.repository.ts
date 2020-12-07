@@ -15,16 +15,25 @@ export class CourseRepository extends BaseRepository<Course> {
     }
 
     public async filter(filterCourseDto: FilterCourseRequestDto) {
-        return this.createQueryBuilder('course')
+        const queryBuilder = this.createQueryBuilder('course')
             .leftJoinAndSelect('course.media', 'media')
             .leftJoinAndSelect('course.lessons', 'lessons')
             .leftJoinAndSelect('lessons.lessonMaterials', 'lessonMaterials')
             .leftJoinAndSelect('lessonMaterials.media', 'materialMedia')
             .leftJoinAndSelect('lessonMaterials.textContent', 'textContent')
             .leftJoinAndSelect('lessonMaterials.test', 'test')
-            .where('course.name = :name', { name: filterCourseDto.name })
-            .andWhere('course.category = :category', { category: filterCourseDto.category })
-            .getMany();
+
+        if (filterCourseDto.name) {
+            queryBuilder.where('course.name = :name', { name: filterCourseDto.name })
+        }
+
+        if (filterCourseDto.name && filterCourseDto.category) {
+            queryBuilder.andWhere('course.category = :category', { category: filterCourseDto.category })
+        } else if (filterCourseDto.category) {
+            queryBuilder.where('course.category = :category', { category: filterCourseDto.category })
+        }
+
+        return queryBuilder.getMany();
     }
 
     public async findByIdWithMediaAndLessons(id: number): Promise<Course> {
