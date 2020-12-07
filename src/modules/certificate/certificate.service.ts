@@ -1,5 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { CourseRepository } from "../course/course.repository";
 import { UserCourseRepository } from "../user-course/user-course.repository";
+import { Certificate } from "./certificate.entity";
 import { CertificateRepository } from "./certificate.repository";
 import { CreateCertificateRequestDto } from "./dto/create-certificate.request-dto";
 
@@ -8,14 +10,22 @@ export class CertificateService {
 
     constructor(
         private readonly certificateRepository: CertificateRepository,
-        private readonly userCourseRepository: UserCourseRepository
+        private readonly userCourseRepository: UserCourseRepository,
+        private readonly courseRepository: CourseRepository
     ) { }
 
-    public async getUserCertificates(userId: number) {
-        return this.certificateRepository.createQueryBuilder('certificate')
+    public async getUserCertificates(userId: number): Promise<[Certificate[], number[]]> {
+        const certificates = await this.certificateRepository.createQueryBuilder('certificate')
             .leftJoinAndSelect('certificate.userCourse', 'userCourse')
+            .leftJoinAndSelect('userCourse.course', 'course')
             .where('userCourse.userId = :userId', { userId })
             .getMany();
+
+        const maxScores = await Promise.all(certificates.map(certificate => Promise.resolve(
+            this.courseRepository.findMaxScore(certificate.userCourse.courseId)
+        )));
+
+        return [certificates, maxScores];
     }
 
     public async getByIdOrFail(id: number) {

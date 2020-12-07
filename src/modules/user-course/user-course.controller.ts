@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { IncrementScoreRequestDto } from "./dto/increment-score.request-dto";
+import { UserCourseResponseDto } from "./dto/user-course.response-dto";
 import { UserCourseService } from "./user-course.service";
 
 @ApiTags('userCourse')
@@ -11,7 +12,8 @@ export class UserCourseController {
 
     @Get('user/courses')
     async getSubscribedCourses(@Query('userId') userId: number) {
-        return this.userCourseService.getUserCourses(userId);
+        const [courses, maxScores] = await this.userCourseService.getUserCourses(userId);
+        return courses.map((course, i) => new UserCourseResponseDto(course, maxScores[i]));
     }
 
     @Post('course/:courseId/user/:userId/join')
