@@ -20,6 +20,12 @@ export class CourseController {
 
     constructor(private readonly courseService: CourseService) { }
 
+    @Get('maxScore')
+    async getMaxScore(@Query('courseId') courseId: number) {
+        const maxScore = await this.courseService.getMaxScore(courseId);
+        return { maxScore: maxScore }
+    }
+
     @Get('/filter')
     async filter(@Query() query: FilterCourseRequestDto) {
         return this.courseService.filter(query);

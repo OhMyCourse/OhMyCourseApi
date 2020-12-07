@@ -24,6 +24,10 @@ export class CourseService {
         private readonly mediaService: MediaService
     ) { }
 
+    public async getMaxScore(courseId: number) {
+        return this.courseRepository.findMaxScore(courseId);
+    }
+
     public async filter(filterCourseDto: FilterCourseRequestDto) {
         return this.courseRepository.filter(filterCourseDto);
     }
