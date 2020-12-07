@@ -4,11 +4,11 @@ import { CourseCategory } from "../../../../common/enums/course-category.enum";
 
 export class FilterCourseRequestDto {
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsOptional()
     name?: string;
 
-    @ApiProperty({ enum: CourseCategory })
+    @ApiProperty({ enum: CourseCategory, required: false })
     @IsOptional()
     @IsEnum(CourseCategory)
     category?: CourseCategory;
