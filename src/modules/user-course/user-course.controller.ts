@@ -13,7 +13,8 @@ export class UserCourseController {
     @Get('user/courses')
     async getSubscribedCourses(@Query('userId') userId: number) {
         const [courses, maxScores] = await this.userCourseService.getUserCourses(userId);
-        return courses.map((course, i) => new UserCourseResponseDto(course, maxScores[i]));
+        return courses;
+        // return courses.map((course, i) => new UserCourseResponseDto(course, maxScores[i]));
     }
 
     @Post('course/:courseId/user/:userId/join')
