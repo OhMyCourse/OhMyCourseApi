@@ -36,7 +36,8 @@ export class ConfigService {
                 migrationsDir: this.get('TYPEORM_MIGRATIONS_DIR'),
             },
             namingStrategy: new SnakeNamingStrategy(),
-            logging: this.getBoolean('APP_PORT')
+            logging: this.getBoolean('APP_PORT'),
+            synchronize: false
         };
     }
 }

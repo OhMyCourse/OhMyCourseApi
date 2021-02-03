@@ -28,37 +28,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
-
+## Run server
 ```bash
-$ npm install
-```
+ $ npm run start
+ ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+## Run these commands after pulling from dev
+1. ``` $ npm i ``` - resolve dependencies 
+2. ``` $ npm run run-migration ``` - update db
 
 ## Support
 
